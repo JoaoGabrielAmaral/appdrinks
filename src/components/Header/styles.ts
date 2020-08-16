@@ -14,7 +14,7 @@ export const ContainerIcon = styled.View`
 `;
 
 export const IconBack = styled(Icon).attrs(() => ({
-  size: 15,
+  size: 20,
   color: '#000',
 }))``;
 

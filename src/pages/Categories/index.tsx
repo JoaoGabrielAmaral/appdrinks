@@ -46,6 +46,15 @@ const Categories: React.FC = () => {
             justifyContent: 'space-around',
             paddingBottom: 20,
           }}
+          ListEmptyComponent={() => {
+            return (
+              <View style={{ alignItems: 'center' }}>
+                <Text style={{ color: '#fff', fontSize: 15 }}>
+                  No records found
+                </Text>
+              </View>
+            );
+          }}
           renderItem={({ item }) => renderItem(item, onPress)}
         />
       )}

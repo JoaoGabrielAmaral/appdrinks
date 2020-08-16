@@ -14,16 +14,21 @@ const Header: React.FC<IHeader> = ({ text, showButtonBack, onPressBack }) => {
   return (
     <>
       {showButtonBack && (
-        <TouchableOpacity
-          onPress={() => {
-            if (onPressBack) onPressBack();
-          }}
-          style={{ height: 50, width: 50 }}
-        >
-          <ContainerIcon>
+        <ContainerIcon>
+          <TouchableOpacity
+            onPress={() => {
+              if (onPressBack) onPressBack();
+            }}
+            style={{
+              height: 25,
+              width: 25,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
             <IconBack name="arrow-left" />
-          </ContainerIcon>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </ContainerIcon>
       )}
       <ContainerTitle>
         <Title>{text}</Title>

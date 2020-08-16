@@ -15,7 +15,8 @@ interface IDrink {
 }
 
 interface IDetailDrink {
-  name: string;
+  idDrink: string;
+  strDrinkThumb: string;
 }
 
 interface DrinksContextData {
@@ -29,7 +30,7 @@ interface DrinksContextData {
   getDrinks(idCategorie: string): void;
   onSearchDrinks(strDrink: string): void;
 
-  detail: IDetailDrink;
+  detail: IDetailDrink[];
   getDetailDrink(idDrink: string): void;
 }
 
@@ -44,7 +45,7 @@ const DrinksProvider: React.FC = ({ children }) => {
   const [drinks, setDrinks] = useState([] as IDrink[]);
   const [allDrinks, setAllDrinks] = useState([] as IDrink[]);
 
-  const [detail, setDetail] = useState({} as IDetailDrink);
+  const [detail, setDetail] = useState([] as IDetailDrink[]);
 
   const getCategories = useCallback(() => {
     async function load() {
@@ -117,9 +118,19 @@ const DrinksProvider: React.FC = ({ children }) => {
   );
 
   const getDetailDrink = useCallback((idDrink: string) => {
-    setLoading(true);
-    setDetail({});
-    setLoading(false);
+    async function load() {
+      setLoading(true);
+      try {
+        const { data } = await api.get(`lookup.php?i=${idDrink}`);
+        setDetail(data ? data.drinks : []);
+      } catch {
+        Alert.alert('There was an error fetching the drinks');
+      }
+
+      setLoading(false);
+    }
+
+    load();
   }, []);
 
   return (
