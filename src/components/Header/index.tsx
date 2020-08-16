@@ -2,7 +2,10 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { ContainerIcon, IconBack, ContainerTitle, Title } from './styles';
+
+import ButtonBack from '../ButtonBack';
+
+import { ContainerTitle, Title } from './styles';
 
 interface IHeader {
   text: string;
@@ -10,26 +13,18 @@ interface IHeader {
   onPressBack?(): void;
 }
 
-const Header: React.FC<IHeader> = ({ text, showButtonBack, onPressBack }) => {
+const Header: React.FC<IHeader> = ({
+  text,
+  showButtonBack,
+  onPressBack,
+}: {
+  text: string;
+  showButtonBack: boolean;
+  onPressBack: () => void;
+}) => {
   return (
     <>
-      {showButtonBack && (
-        <ContainerIcon>
-          <TouchableOpacity
-            onPress={() => {
-              if (onPressBack) onPressBack();
-            }}
-            style={{
-              height: 20,
-              width: 20,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
-            <IconBack name="arrow-left" />
-          </TouchableOpacity>
-        </ContainerIcon>
-      )}
+      {showButtonBack && <ButtonBack onPressBack={onPressBack} />}
       <ContainerTitle>
         <Title>{text}</Title>
       </ContainerTitle>

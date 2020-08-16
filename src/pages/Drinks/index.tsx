@@ -41,7 +41,7 @@ const Drinks: React.FC = () => {
         text="Drinks"
         showButtonBack
         onPressBack={() => {
-          navigate('Categories');
+          navigate('Filters');
         }}
       />
       <Search

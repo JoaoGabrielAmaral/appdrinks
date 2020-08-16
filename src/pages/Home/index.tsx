@@ -3,22 +3,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { useDrinks } from '../../hooks/drinks';
 
-import Categories from '../Categories';
+import Filters from '../Filters';
 import Drinks from '../Drinks';
 import Detail from '../Detail';
 
 const Stack = createStackNavigator();
 
 const Home: React.FC = () => {
-  const { getCategories } = useDrinks();
+  const { getFilters } = useDrinks();
 
   useEffect(() => {
-    getCategories();
-  }, [getCategories]);
+    getFilters();
+  }, [getFilters]);
 
   return (
     <Stack.Navigator
-      initialRouteName="Companies"
+      initialRouteName="Filters"
       screenOptions={{
         headerShown: false,
         cardStyle: {
@@ -26,7 +26,7 @@ const Home: React.FC = () => {
         },
       }}
     >
-      <Stack.Screen name="Categories" component={Categories} />
+      <Stack.Screen name="Filters" component={Filters} />
       <Stack.Screen name="Drinks" component={Drinks} />
       <Stack.Screen name="Detail" component={Detail} />
     </Stack.Navigator>
