@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { View, Text, FlatList, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -39,6 +39,11 @@ const renderItem = ({ item }: any, typeFilter: string, onPress) => {
 
 const Filters: React.FC = () => {
   const { navigate } = useNavigation();
+  const flatListCategoriesRef = useRef(null);
+  const flatListGlassesRef = useRef(null);
+  const flatListIngredientsRef = useRef(null);
+  const flatListAlcoholicRef = useRef(null);
+
   const {
     loadingCategories,
     categories,
@@ -57,21 +62,25 @@ const Filters: React.FC = () => {
       name: 'Categories',
       loading: loadingCategories,
       content: categories,
+      flatListRef: flatListCategoriesRef,
     },
     {
       name: 'Glasses',
       loading: loadingGlasses,
       content: glasses,
+      flatListRef: flatListGlassesRef,
     },
     {
       name: 'Ingredients',
       loading: loadingIngredients,
       content: ingredients,
+      flatListRef: flatListIngredientsRef,
     },
     {
       name: 'Alcoholic',
       loading: loadingAlcoholic,
       content: alcoholic,
+      flatListRef: flatListAlcoholicRef,
     },
   ];
 
@@ -80,7 +89,7 @@ const Filters: React.FC = () => {
       onFilter(typeFilter, nameFilter);
       navigate('Drinks');
     },
-    [onFilter],
+    [onFilter, navigate],
   );
 
   return (
@@ -90,12 +99,15 @@ const Filters: React.FC = () => {
         placeholder="Search"
         onChangeText={(text: string) => {
           onSearchFilters(text);
+          filters.map(({ flatListRef }) => {
+            flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
+          });
         }}
       />
       <ScrollView>
         {!!filters.length &&
           filters.map(filter => {
-            const { name, content, loading } = filter;
+            const { name, content, loading, flatListRef } = filter;
             if (!loading && !content.length) return <View key={name} />;
             return (
               <View key={name}>
@@ -103,10 +115,10 @@ const Filters: React.FC = () => {
                   {name}
                 </Text>
                 <FlatList
+                  ref={flatListRef}
                   horizontal
                   showsHorizontalScrollIndicator
                   contentContainerStyle={{ paddingBottom: 10 }}
-                  indicatorStyle="white"
                   keyExtractor={c => c}
                   ListFooterComponent={() => {
                     return (
