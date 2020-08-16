@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Feather';
 
 // import { Container } from './styles';
@@ -37,6 +37,18 @@ const Search: React.FC<ISearch> = ({ placeholder, onChangeText }) => {
         }}
         value={textSearch}
       />
+      {!!textSearch.length && (
+        <TouchableOpacity
+          onPress={() => {
+            setTextSearch('');
+            onChangeText('');
+          }}
+        >
+          <View style={{ paddingHorizontal: 20 }}>
+            <Icon name="x" size={25} color="#EB5757" />
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

@@ -11,7 +11,7 @@ interface ICategory {
 
 const Category: React.FC<ICategory> = ({ name, onPress }) => {
   return (
-    <TouchableOpacity onPress={() => onPress(name)}>
+    <TouchableOpacity onPress={() => onPress(name)} activeOpacity={0.9}>
       <View
         style={{
           backgroundColor: '#fff',
@@ -20,7 +20,7 @@ const Category: React.FC<ICategory> = ({ name, onPress }) => {
           height: 100,
           justifyContent: 'center',
           alignItems: 'center',
-          elevation: 5,
+          elevation: 1,
         }}
       >
         <Text style={{ fontSize: 15 }}>{name}</Text>
