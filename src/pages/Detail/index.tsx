@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Image, Text, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import YouTube from 'react-native-youtube';
 
 import { useDrinks } from '../../hooks/drinks';
 
-import { Container, Title } from './styles';
+import { Name, ContainerImage, Container, Title, Item } from './styles';
 import Loading from '../../components/Loading/LoadingCenter';
 import Header from '../../components/Header';
 
@@ -22,39 +23,43 @@ const getIngredients = detail => {
 
 const renderItem: React.FC = ({ item }) => {
   const ingredients = getIngredients(item);
+  const urlVideo = item?.strVideo;
+  const idVideo = urlVideo && urlVideo.split('=')[1];
+
   return (
     <View>
-      <Text style={{ color: '#fff', textAlign: 'center', fontSize: 15 }}>
-        {item.strDrink}
-      </Text>
-      <View
-        style={{
-          alignItems: 'center',
-          paddingVertical: 15,
-        }}
-      >
+      <Name>{item.strDrink}</Name>
+      <ContainerImage>
         <Image
           source={{ uri: item.strDrinkThumb }}
           style={{ height: 250, width: 250, borderWidth: 1 }}
         />
-      </View>
+      </ContainerImage>
       <Container>
         <Title>Ingredient</Title>
         {ingredients &&
           ingredients.map((ingredient, i) => (
-            <Text style={{ color: '#fff', fontSize: 15 }}>
+            <Item key={`ITEM_${i}`}>
               {++i}
               {') '}
               {ingredient}
-            </Text>
+            </Item>
           ))}
       </Container>
       <Container>
         <Title>Instructions</Title>
-        <Text style={{ color: '#fff', fontSize: 15 }}>
-          {item.strInstructions}
-        </Text>
+        <Item>{item.strInstructions}</Item>
       </Container>
+      {!!idVideo?.length && (
+        <Container>
+          <Title>Video</Title>
+          <YouTube
+            apiKey={idVideo}
+            videoId={idVideo}
+            style={{ alignSelf: 'stretch', height: 300 }}
+          />
+        </Container>
+      )}
     </View>
   );
 };
@@ -64,7 +69,7 @@ const Detail: React.FC = () => {
   const { loading, detail } = useDrinks();
 
   return (
-    <View>
+    <>
       <Header
         text="Details"
         showButtonBack
@@ -82,7 +87,7 @@ const Detail: React.FC = () => {
           renderItem={renderItem}
         />
       )}
-    </View>
+    </>
   );
 };
 

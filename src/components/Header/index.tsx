@@ -20,8 +20,8 @@ const Header: React.FC<IHeader> = ({ text, showButtonBack, onPressBack }) => {
               if (onPressBack) onPressBack();
             }}
             style={{
-              height: 25,
-              width: 25,
+              height: 20,
+              width: 20,
               justifyContent: 'center',
               alignItems: 'center',
             }}
