@@ -246,13 +246,7 @@ const DrinksProvider: React.FC = ({ children }) => {
 
   const onSearchDrinks = useCallback(
     (strDrink: string) => {
-      setDrinks(
-        strDrink.length !== 0
-          ? allDrinks.filter(
-              drink => drink.strDrink.toLowerCase().indexOf(strDrink) >= 0,
-            )
-          : allDrinks,
-      );
+      setDrinks(filter(allDrinks, strDrink));
     },
     [allDrinks],
   );
