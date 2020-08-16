@@ -1,32 +1,24 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
 
-import { ContainerIcon, IconBack } from './styles';
+import { Container, Button, ContainerIcon, IconBack } from './styles';
 
 interface IButtonBack {
   onPressBack: () => void;
 }
+
 const ButtonBack: React.FC<IButtonBack> = ({ onPressBack }) => {
   return (
-    <View
-      style={{
-        position: 'absolute',
-      }}
-    >
-      <TouchableOpacity
+    <Container>
+      <Button
         onPress={() => {
           if (onPressBack) onPressBack();
-        }}
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
         }}
       >
         <ContainerIcon>
           <IconBack name="arrow-left" />
         </ContainerIcon>
-      </TouchableOpacity>
-    </View>
+      </Button>
+    </Container>
   );
 };
 

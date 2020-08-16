@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, Image } from 'react-native';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 
-// import { Container } from './styles';
+import { Container, ContainerIcon, Input } from './styles';
 
 interface ISearch {
   placeholder: string;
@@ -14,22 +13,11 @@ const Search: React.FC<ISearch> = ({ placeholder, onChangeText }) => {
   const [textSearch, setTextSearch] = useState('');
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderRadius: 5,
-        margin: 20,
-        marginVertical: 50,
-        elevation: 5,
-      }}
-    >
-      <View style={{ paddingHorizontal: 20 }}>
+    <Container style={{ elevation: 5 }}>
+      <ContainerIcon>
         <Icon name="search" size={25} color="#EB5757" />
-      </View>
-      <TextInput
-        style={{ flex: 1, fontSize: 20 }}
+      </ContainerIcon>
+      <Input
         placeholder={placeholder}
         onChangeText={text => {
           setTextSearch(text);
@@ -44,12 +32,12 @@ const Search: React.FC<ISearch> = ({ placeholder, onChangeText }) => {
             onChangeText('');
           }}
         >
-          <View style={{ paddingHorizontal: 20 }}>
+          <ContainerIcon>
             <Icon name="x" size={25} color="#EB5757" />
-          </View>
+          </ContainerIcon>
         </TouchableOpacity>
       )}
-    </View>
+    </Container>
   );
 };
 

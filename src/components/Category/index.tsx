@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 
-// import { Container } from './styles';
+import { Container, Title } from './styles';
 
 interface ICategory {
   name: string;
@@ -12,19 +11,9 @@ interface ICategory {
 const Category: React.FC<ICategory> = ({ name, onPress }) => {
   return (
     <TouchableOpacity onPress={() => onPress(name)} activeOpacity={0.9}>
-      <View
-        style={{
-          backgroundColor: '#fff',
-          borderRadius: 15,
-          width: 180,
-          height: 100,
-          justifyContent: 'center',
-          alignItems: 'center',
-          elevation: 1,
-        }}
-      >
-        <Text style={{ fontSize: 15 }}>{name}</Text>
-      </View>
+      <Container style={{ elevation: 1 }}>
+        <Title>{name}</Title>
+      </Container>
     </TouchableOpacity>
   );
 };

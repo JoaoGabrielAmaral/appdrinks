@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
-import { Text, FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
+import { Container, Title } from './styles';
 
 import { useDrinks } from '../../hooks/drinks';
 
@@ -57,18 +59,11 @@ const Drinks: React.FC = () => {
         <FlatList
           data={drinks}
           keyExtractor={drink => String(drink.idDrink)}
-          numColumns={2}
-          columnWrapperStyle={{
-            justifyContent: 'space-around',
-            paddingBottom: 20,
-          }}
           ListEmptyComponent={() => {
             return (
-              <View style={{ alignItems: 'center' }}>
-                <Text style={{ color: '#fff', fontSize: 15 }}>
-                  No records found
-                </Text>
-              </View>
+              <Container>
+                <Title>No records found</Title>
+              </Container>
             );
           }}
           renderItem={item => renderItem(item, onPress)}

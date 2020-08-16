@@ -1,11 +1,21 @@
 import React from 'react';
-import { View, Image, Text, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import YouTube from 'react-native-youtube';
 
 import { useDrinks } from '../../hooks/drinks';
 
-import { Name, ContainerImage, Container, Title, Item } from './styles';
+import {
+  ContainerName,
+  Image,
+  Name,
+  Alcoholic,
+  ContainerImage,
+  Container,
+  Title,
+  Item,
+} from './styles';
+
 import Loading from '../../components/Loading/LoadingCenter';
 import Header from '../../components/Header';
 
@@ -14,7 +24,11 @@ const getIngredients = detail => {
 
   Object.keys(detail).forEach(key => {
     if (key.startsWith('strIngredient') && detail[key]) {
-      items.push(detail[key]);
+      const numberIngredient = key.replace('strIngredient', '');
+      const measure = detail[`strMeasure${numberIngredient}`];
+      items.push(
+        `${(measure || '').trim()} ${(detail[key] || '').trim()}`.trim(),
+      );
     }
   });
 
@@ -28,12 +42,12 @@ const renderItem: React.FC = ({ item }) => {
 
   return (
     <View>
-      <Name>{item.strDrink}</Name>
       <ContainerImage>
-        <Image
-          source={{ uri: item.strDrinkThumb }}
-          style={{ height: 250, width: 250, borderWidth: 1 }}
-        />
+        <Image source={{ uri: item.strDrinkThumb }} />
+        <ContainerName style={{ elevation: 5 }}>
+          <Name>{item.strDrink}</Name>
+          <Alcoholic>{item.strAlcoholic}</Alcoholic>
+        </ContainerName>
       </ContainerImage>
       <Container>
         <Title>Ingredient</Title>
@@ -46,10 +60,12 @@ const renderItem: React.FC = ({ item }) => {
             </Item>
           ))}
       </Container>
-      <Container>
-        <Title>Instructions</Title>
-        <Item>{item.strInstructions}</Item>
-      </Container>
+      {!!item.strInstructions.length && (
+        <Container>
+          <Title>Instructions</Title>
+          <Item>{item.strInstructions}</Item>
+        </Container>
+      )}
       {!!idVideo?.length && (
         <Container>
           <Title>Video</Title>

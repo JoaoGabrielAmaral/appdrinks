@@ -1,9 +1,27 @@
 import styled from 'styled-components/native';
 
+export const ContainerName = styled.View`
+  height: 70px;
+  width: 200px;
+  margin-top: -35px;
+  padding: 10px 0px 0px 10px;
+  background-color: #fff;
+  border-radius: 10px;
+`;
+
+export const Image = styled.Image`
+  height: 250px;
+  width: 250px;
+  border-radius: 10px;
+`;
+
 export const Name = styled.Text`
-  color: #fff;
-  text-align: center;
-  font-size: 20px;
+  font-weight: bold;
+  font-size: 15px;
+`;
+
+export const Alcoholic = styled.Text`
+  font-size: 10px;
 `;
 
 export const ContainerImage = styled.View`

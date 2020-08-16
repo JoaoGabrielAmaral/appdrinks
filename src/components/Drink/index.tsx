@@ -1,8 +1,15 @@
 import React from 'react';
-import { View, Image, Text } from 'react-native';
+import { Image, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { Container, ContainerImage, ContainerTitle, Title } from './styles';
+import {
+  Container,
+  ContainerImage,
+  ContainerTitle,
+  Title,
+  ContainerIcon,
+  IconDetail,
+} from './styles';
 
 const Drink: React.FC = ({
   idDrink,
@@ -29,6 +36,9 @@ const Drink: React.FC = ({
         <ContainerTitle>
           <Title>{strDrink}</Title>
         </ContainerTitle>
+        <ContainerIcon>
+          <IconDetail />
+        </ContainerIcon>
       </Container>
     </TouchableOpacity>
   );

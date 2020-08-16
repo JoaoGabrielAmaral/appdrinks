@@ -1,6 +1,15 @@
 import styled from 'styled-components/native';
 import Icon from 'react-native-vector-icons/Feather';
 
+export const Container = styled.View`
+  position: absolute;
+`;
+
+export const Button = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ContainerIcon = styled.View`
   padding: 10px;
   margin: 5px;

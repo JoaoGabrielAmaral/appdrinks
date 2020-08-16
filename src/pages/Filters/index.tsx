@@ -1,9 +1,15 @@
-import React, { useCallback, useState, useRef } from 'react';
-import { View, Text, FlatList, ScrollView, Dimensions } from 'react-native';
+import React, { useCallback, useRef } from 'react';
+import { View, FlatList, ScrollView, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-import { Container } from './styles';
+import {
+  Container,
+  ContainerItem,
+  Item,
+  FilterName,
+  NoRecords,
+} from './styles';
 import { useDrinks } from '../../hooks/drinks';
 
 import Loading from '../../components/Loading/LoadingCenter';
@@ -19,20 +25,9 @@ const renderItem = ({ item }: any, typeFilter: string, onPress) => {
       activeOpacity={0.9}
       onPress={() => onPress(typeFilter, item)}
     >
-      <View
-        style={{
-          height: HEIGHT_ITEM,
-          width: 100,
-          justifyContent: 'center',
-          paddingHorizontal: 10,
-          marginTop: 5,
-          marginHorizontal: 10,
-          backgroundColor: '#fff',
-          borderRadius: 10,
-        }}
-      >
-        <Text style={{ color: '#000', textAlign: 'center' }}>{item}</Text>
-      </View>
+      <ContainerItem height={HEIGHT_ITEM}>
+        <Item>{item}</Item>
+      </ContainerItem>
     </TouchableOpacity>
   );
 };
@@ -111,9 +106,7 @@ const Filters: React.FC = () => {
             if (!loading && !content.length) return <View key={name} />;
             return (
               <View key={name}>
-                <Text style={{ color: '#fff', fontSize: 25, paddingLeft: 10 }}>
-                  {name}
-                </Text>
+                <FilterName>{name}</FilterName>
                 <FlatList
                   ref={flatListRef}
                   horizontal
@@ -130,9 +123,7 @@ const Filters: React.FC = () => {
                         )}
                         {!loading && !content.length && (
                           <Container height={HEIGHT_ITEM} width={width}>
-                            <Text style={{ color: '#fff', fontSize: 15 }}>
-                              No records found
-                            </Text>
+                            <NoRecords>No records found</NoRecords>
                           </Container>
                         )}
                       </>

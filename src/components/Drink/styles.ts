@@ -1,23 +1,35 @@
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 export const Container = styled.View`
-  height: 150px;
-  width: 150px;
+  flex-direction: row;
   background-color: #fff;
   border-radius: 10px;
+  margin: 0 10px 10px 10px;
 `;
 
 export const ContainerImage = styled.View`
   align-items: center;
-  padding-top: 5px;
+  justify-content: center;
+  padding: 10px;
   border-radius: 10px;
 `;
 
 export const ContainerTitle = styled.View`
   flex: 1;
-  justify-content: center;
+  margin-top: 5px;
 `;
 
 export const Title = styled.Text`
-  text-align: center;
+  font-weight: bold;
 `;
+
+export const ContainerIcon = styled.View`
+  justify-content: center;
+  padding: 0px 10px 0px 10px;
+`;
+
+export const IconDetail = styled(Icon).attrs(() => ({
+  size: 15,
+  name: 'arrow-right',
+}))``;
