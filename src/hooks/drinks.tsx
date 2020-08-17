@@ -69,7 +69,6 @@ const DrinksProvider: React.FC = ({ children }) => {
   const [detail, setDetail] = useState([] as IDetailDrink[]);
 
   const getCategories = useCallback(async () => {
-    setLoading(true);
     try {
       const { data } = await api.get('list.php?c=list');
       setCategories(data ? data.drinks.map(drink => drink.strCategory) : []);
@@ -77,8 +76,6 @@ const DrinksProvider: React.FC = ({ children }) => {
     } catch (e) {
       Alert.alert('There was an error fetching the categories');
     }
-
-    setLoading(false);
   }, []);
 
   const onSearchCategories = useCallback(
@@ -91,7 +88,6 @@ const DrinksProvider: React.FC = ({ children }) => {
   );
 
   const getGlasses = useCallback(async () => {
-    setLoading(true);
     try {
       const { data } = await api.get('list.php?g=list');
       setGlasses(data ? data.drinks.map(drink => drink.strGlass) : []);
@@ -99,8 +95,6 @@ const DrinksProvider: React.FC = ({ children }) => {
     } catch (e) {
       Alert.alert('There was an error fetching the glasses');
     }
-
-    setLoading(false);
   }, []);
 
   const onSearchGlasses = useCallback(
@@ -113,8 +107,6 @@ const DrinksProvider: React.FC = ({ children }) => {
   );
 
   const getIngredients = useCallback(async () => {
-    setLoading(true);
-
     try {
       const { data } = await api.get('list.php?i=list');
       setIngredients(
@@ -126,8 +118,6 @@ const DrinksProvider: React.FC = ({ children }) => {
     } catch (e) {
       Alert.alert('There was an error fetching the ingredients');
     }
-
-    setLoading(false);
   }, []);
 
   const onSearchIngredients = useCallback(
@@ -140,8 +130,6 @@ const DrinksProvider: React.FC = ({ children }) => {
   );
 
   const getAlcoholic = useCallback(async () => {
-    setLoading(true);
-
     try {
       const { data } = await api.get('list.php?a=list');
       setAlcoholic(data ? data.drinks.map(drink => drink.strAlcoholic) : []);
@@ -149,8 +137,6 @@ const DrinksProvider: React.FC = ({ children }) => {
     } catch (e) {
       Alert.alert('There was an error fetching the alcoholic');
     }
-
-    setLoading(false);
   }, []);
 
   const onSearchAlcoholic = useCallback(
@@ -164,10 +150,12 @@ const DrinksProvider: React.FC = ({ children }) => {
 
   const getFilters = useCallback(() => {
     async function load() {
+      setLoading(true);
       await getCategories();
       await getGlasses();
       await getIngredients();
       await getAlcoholic();
+      setLoading(false);
     }
 
     load();

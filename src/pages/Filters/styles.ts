@@ -47,6 +47,4 @@ export const IconDetail = styled(Icon).attrs(() => ({
 export const ContainerFlatList = styled.View`
   flex: 1;
   background-color: #f6f6f6;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
 `;
