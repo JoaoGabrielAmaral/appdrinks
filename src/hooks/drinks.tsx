@@ -26,16 +26,9 @@ interface DrinksContextData {
   onFilter(typeFilter: string, text: string): void;
   onSearchFilters(strDrink: string): void;
 
-  loadingCategories: boolean;
   categories: string[];
-
-  loadingGlasses: boolean;
   glasses: string[];
-
-  loadingIngredients: boolean;
   ingredients: string[];
-
-  loadingAlcoholic: boolean;
   alcoholic: string[];
 
   drinks: IDrink[];
@@ -56,139 +49,128 @@ const filter = (contents: any[], text: string) => {
 };
 
 const DrinksProvider: React.FC = ({ children }) => {
-  const [loadingCategories, setLoadingCategories] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [categories, setCategories] = useState([] as string[]);
   const [allCategories, setAllCategories] = useState([] as string[]);
 
-  const [loadingGlasses, setLoadingGlasses] = useState(false);
   const [glasses, setGlasses] = useState([] as string[]);
   const [allGlasses, setAllGlasses] = useState([] as string[]);
 
-  const [loadingIngredients, setLoadingIngredients] = useState(false);
   const [ingredients, setIngredients] = useState([] as string[]);
   const [allIngredients, setAllIngredients] = useState([] as string[]);
 
-  const [loadingAlcoholic, setLoadingAlcoholic] = useState(false);
   const [alcoholic, setAlcoholic] = useState([] as string[]);
   const [allAlcoholic, setAllAlcoholic] = useState([] as string[]);
 
-  const [loading, setLoading] = useState(false);
   const [drinks, setDrinks] = useState([] as IDrink[]);
   const [allDrinks, setAllDrinks] = useState([] as IDrink[]);
 
   const [detail, setDetail] = useState([] as IDetailDrink[]);
 
-  const getCategories = useCallback(() => {
-    async function load() {
-      setLoadingCategories(true);
-      try {
-        const { data } = await api.get('list.php?c=list');
-        setCategories(data ? data.drinks.map(drink => drink.strCategory) : []);
-        setAllCategories(
-          data ? data.drinks.map(drink => drink.strCategory) : [],
-        );
-      } catch (e) {
-        Alert.alert('There was an error fetching the categories');
-      }
-
-      setLoadingCategories(false);
+  const getCategories = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get('list.php?c=list');
+      setCategories(data ? data.drinks.map(drink => drink.strCategory) : []);
+      setAllCategories(data ? data.drinks.map(drink => drink.strCategory) : []);
+    } catch (e) {
+      Alert.alert('There was an error fetching the categories');
     }
 
-    load();
+    setLoading(false);
   }, []);
 
   const onSearchCategories = useCallback(
     (text: string) => {
+      setLoading(true);
       setCategories(filter(allCategories, text));
+      setLoading(false);
     },
     [allCategories],
   );
 
-  const getGlasses = useCallback(() => {
-    async function load() {
-      setLoadingGlasses(true);
-      try {
-        const { data } = await api.get('list.php?g=list');
-        setGlasses(data ? data.drinks.map(drink => drink.strGlass) : []);
-        setAllGlasses(data ? data.drinks.map(drink => drink.strGlass) : []);
-      } catch (e) {
-        Alert.alert('There was an error fetching the glasses');
-      }
-
-      setLoadingGlasses(false);
+  const getGlasses = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get('list.php?g=list');
+      setGlasses(data ? data.drinks.map(drink => drink.strGlass) : []);
+      setAllGlasses(data ? data.drinks.map(drink => drink.strGlass) : []);
+    } catch (e) {
+      Alert.alert('There was an error fetching the glasses');
     }
 
-    load();
+    setLoading(false);
   }, []);
 
   const onSearchGlasses = useCallback(
     (text: string) => {
+      setLoading(true);
       setGlasses(filter(allGlasses, text));
+      setLoading(false);
     },
     [allGlasses],
   );
 
-  const getIngredients = useCallback(() => {
-    async function load() {
-      setLoadingIngredients(true);
+  const getIngredients = useCallback(async () => {
+    setLoading(true);
 
-      try {
-        const { data } = await api.get('list.php?i=list');
-        setIngredients(
-          data ? data.drinks.map(drink => drink.strIngredient1) : [],
-        );
-        setAllIngredients(
-          data ? data.drinks.map(drink => drink.strIngredient1) : [],
-        );
-      } catch (e) {
-        Alert.alert('There was an error fetching the ingredients');
-      }
-
-      setLoadingIngredients(false);
+    try {
+      const { data } = await api.get('list.php?i=list');
+      setIngredients(
+        data ? data.drinks.map(drink => drink.strIngredient1) : [],
+      );
+      setAllIngredients(
+        data ? data.drinks.map(drink => drink.strIngredient1) : [],
+      );
+    } catch (e) {
+      Alert.alert('There was an error fetching the ingredients');
     }
 
-    load();
+    setLoading(false);
   }, []);
 
   const onSearchIngredients = useCallback(
     (text: string) => {
+      setLoading(true);
       setIngredients(filter(allIngredients, text));
+      setLoading(false);
     },
     [allIngredients],
   );
 
-  const getAlcoholic = useCallback(() => {
-    async function load() {
-      setLoadingAlcoholic(true);
+  const getAlcoholic = useCallback(async () => {
+    setLoading(true);
 
-      try {
-        const { data } = await api.get('list.php?a=list');
-        setAlcoholic(data ? data.drinks.map(drink => drink.strAlcoholic) : []);
-        setAllAlcoholic(
-          data ? data.drinks.map(drink => drink.strAlcoholic) : [],
-        );
-      } catch (e) {
-        Alert.alert('There was an error fetching the alcoholic');
-      }
-
-      setLoadingAlcoholic(false);
+    try {
+      const { data } = await api.get('list.php?a=list');
+      setAlcoholic(data ? data.drinks.map(drink => drink.strAlcoholic) : []);
+      setAllAlcoholic(data ? data.drinks.map(drink => drink.strAlcoholic) : []);
+    } catch (e) {
+      Alert.alert('There was an error fetching the alcoholic');
     }
 
-    load();
+    setLoading(false);
   }, []);
 
   const onSearchAlcoholic = useCallback(
     (text: string) => {
+      setLoading(true);
       setAlcoholic(filter(allAlcoholic, text));
+      setLoading(false);
     },
     [allAlcoholic],
   );
 
   const getFilters = useCallback(() => {
-    getCategories();
-    getGlasses();
-    getIngredients();
-    getAlcoholic();
+    async function load() {
+      await getCategories();
+      await getGlasses();
+      await getIngredients();
+      await getAlcoholic();
+    }
+
+    load();
   }, [getCategories, getGlasses, getIngredients, getAlcoholic]);
 
   const onSearchFilters = useCallback(
@@ -282,16 +264,9 @@ const DrinksProvider: React.FC = ({ children }) => {
         onSearchFilters,
         onFilter,
 
-        loadingCategories,
         categories,
-
-        loadingGlasses,
         glasses,
-
-        loadingIngredients,
         ingredients,
-
-        loadingAlcoholic,
         alcoholic,
 
         drinks,

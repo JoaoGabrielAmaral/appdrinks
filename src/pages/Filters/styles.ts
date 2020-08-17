@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 interface IContainer {
   height: number;
@@ -17,9 +18,9 @@ interface IContainerItem {
 }
 
 export const ContainerItem = styled.View<IContainerItem>`
+  flex-direction: row;
+  align-items: center;
   height: ${props => props.height}px;
-  width: 100px;
-  justify-content: center;
   padding: 0px 10px 0px 10px;
   margin: 5px 10px 0px 10px;
   background-color: #fff;
@@ -27,8 +28,8 @@ export const ContainerItem = styled.View<IContainerItem>`
 `;
 
 export const Item = styled.Text`
+  flex: 1;
   color: #000;
-  text-align: center;
 `;
 
 export const FilterName = styled.Text`
@@ -38,6 +39,13 @@ export const FilterName = styled.Text`
 `;
 
 export const NoRecords = styled.Text`
-  color: #fff;
   font-size: 15px;
+`;
+
+export const IconDetail = styled(Icon).attrs(() => ({
+  name: 'arrow-right',
+  size: 15,
+  color: '#EB5757',
+}))`
+  padding: 0px 10px 0 10px;
 `;

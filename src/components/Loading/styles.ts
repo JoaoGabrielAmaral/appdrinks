@@ -7,7 +7,7 @@ export const Container = styled.View`
 `;
 
 export const Loading = styled.ActivityIndicator.attrs({
-  color: '#fff',
+  color: '#000',
 })`
   margin: 30px 0;
 `;

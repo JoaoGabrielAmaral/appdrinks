@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { Container, Title } from './styles';
@@ -39,13 +39,13 @@ const Drinks: React.FC = () => {
 
   return (
     <>
-      <Header
+      {/* <Header
         text="Drinks"
         showButtonBack
         onPressBack={() => {
           navigate('Filters');
         }}
-      />
+      /> */}
       <Search
         placeholder="Search"
         onChangeText={(text: string) => {

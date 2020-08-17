@@ -20,13 +20,24 @@ const Home: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Filters"
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         cardStyle: {
+          backgroundColor: '#EB5757',
+        },
+        headerStyle: {
           backgroundColor: '#EB5757',
         },
       }}
     >
-      <Stack.Screen name="Filters" component={Filters} />
+      <Stack.Screen
+        name="Filters"
+        component={Filters}
+        options={{
+          title: 'Menu',
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+        }}
+      />
       <Stack.Screen name="Drinks" component={Drinks} />
       <Stack.Screen name="Detail" component={Detail} />
     </Stack.Navigator>

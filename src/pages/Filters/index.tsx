@@ -1,5 +1,5 @@
-import React, { useCallback, useRef } from 'react';
-import { View, FlatList, ScrollView, Dimensions } from 'react-native';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
+import { View, FlatList, ScrollView, Dimensions, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -9,24 +9,43 @@ import {
   Item,
   FilterName,
   NoRecords,
+  IconDetail,
 } from './styles';
 import { useDrinks } from '../../hooks/drinks';
 
 import Loading from '../../components/Loading/LoadingCenter';
-import Header from '../../components/Header';
 import Search from '../../components/Search';
+import Filter from '../../components/Filter';
 
 const HEIGHT_ITEM = 80;
 const { width } = Dimensions.get('window');
 
-const renderItem = ({ item }: any, typeFilter: string, onPress) => {
+const renderFilter = (
+  item,
+  active: boolean,
+  onPress: (nameFilter: string) => void,
+) => {
+  const { name } = item;
+  return (
+    <Filter
+      name={name}
+      active={active}
+      onPress={() => {
+        onPress(name);
+      }}
+    />
+  );
+};
+
+const renderItem = ({ item }: any, nameFilter, onPress) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      onPress={() => onPress(typeFilter, item)}
+      onPress={() => onPress(nameFilter, item)}
     >
       <ContainerItem height={HEIGHT_ITEM}>
         <Item>{item}</Item>
+        <IconDetail />
       </ContainerItem>
     </TouchableOpacity>
   );
@@ -34,50 +53,49 @@ const renderItem = ({ item }: any, typeFilter: string, onPress) => {
 
 const Filters: React.FC = () => {
   const { navigate } = useNavigation();
-  const flatListCategoriesRef = useRef(null);
-  const flatListGlassesRef = useRef(null);
-  const flatListIngredientsRef = useRef(null);
-  const flatListAlcoholicRef = useRef(null);
 
   const {
-    loadingCategories,
     categories,
-    loadingGlasses,
     glasses,
-    loadingIngredients,
     ingredients,
-    loadingAlcoholic,
     alcoholic,
+    loading,
     onSearchFilters,
     onFilter,
   } = useDrinks();
 
+  const flatListRef = useRef(null);
+  const [filter, setFilter] = useState('Categories');
+  const [content, setContent] = useState(categories);
+
   const filters = [
     {
       name: 'Categories',
-      loading: loadingCategories,
       content: categories,
-      flatListRef: flatListCategoriesRef,
     },
     {
       name: 'Glasses',
-      loading: loadingGlasses,
       content: glasses,
-      flatListRef: flatListGlassesRef,
     },
     {
       name: 'Ingredients',
-      loading: loadingIngredients,
       content: ingredients,
-      flatListRef: flatListIngredientsRef,
     },
     {
       name: 'Alcoholic',
-      loading: loadingAlcoholic,
       content: alcoholic,
-      flatListRef: flatListAlcoholicRef,
     },
   ];
+
+  const getContent = useCallback(() => {
+    return filters.filter(f => f.name === filter)[0];
+  }, [filters, filter]);
+
+  useEffect(() => {
+    const filtered = getContent();
+    setContent(filtered.content);
+    flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
+  }, [filter, getContent]);
 
   const onPress = useCallback(
     (typeFilter: string, nameFilter: string) => {
@@ -87,55 +105,67 @@ const Filters: React.FC = () => {
     [onFilter, navigate],
   );
 
+  const onPressFilter = useCallback(
+    (nameFilter: string): void => {
+      if (filter === nameFilter) return;
+      setFilter(nameFilter);
+    },
+    [filter],
+  );
+
   return (
     <>
-      <Header text="Filters" />
       <Search
         placeholder="Search"
         onChangeText={(text: string) => {
           onSearchFilters(text);
-          filters.map(({ flatListRef }) => {
-            flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
-          });
+          flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
         }}
       />
-      <ScrollView>
-        {!!filters.length &&
-          filters.map(filter => {
-            const { name, content, loading, flatListRef } = filter;
-            if (!loading && !content.length) return <View key={name} />;
+      <View>
+        <FlatList
+          horizontal
+          keyExtractor={c => c.name}
+          data={filters}
+          renderItem={({ item }) => {
+            const itemActive = filter === item.name;
+            return renderFilter(item, itemActive, onPressFilter);
+          }}
+        />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: '#F6F6F6',
+          borderTopLeftRadius: 20,
+          borderTopRightRadius: 20,
+        }}
+      >
+        <FlatList
+          ref={flatListRef}
+          keyExtractor={c => c}
+          style={{ marginTop: 2 }}
+          ListFooterComponent={() => {
             return (
-              <View key={name}>
-                <FilterName>{name}</FilterName>
-                <FlatList
-                  ref={flatListRef}
-                  horizontal
-                  showsHorizontalScrollIndicator
-                  contentContainerStyle={{ paddingBottom: 10 }}
-                  keyExtractor={c => c}
-                  ListFooterComponent={() => {
-                    return (
-                      <>
-                        {loading && (
-                          <Container height={HEIGHT_ITEM} width={width}>
-                            <Loading />
-                          </Container>
-                        )}
-                        {!loading && !content.length && (
-                          <Container height={HEIGHT_ITEM} width={width}>
-                            <NoRecords>No records found</NoRecords>
-                          </Container>
-                        )}
-                      </>
-                    );
-                  }}
-                  data={content}
-                  renderItem={item => renderItem(item, name, onPress)}
-                />
-              </View>
+              <>
+                {loading && (
+                  <Container height={HEIGHT_ITEM} width={width}>
+                    <Loading />
+                  </Container>
+                )}
+                {!loading && !content.length && (
+                  <Container height={HEIGHT_ITEM} width={width}>
+                    <NoRecords>No records found</NoRecords>
+                  </Container>
+                )}
+                <View style={{ height: 10 }} />
+              </>
             );
-          })}
-      </ScrollView>
+          }}
+          data={content}
+          renderItem={item => renderItem(item, filter, onPress)}
+        />
+      </View>
     </>
   );
 };
