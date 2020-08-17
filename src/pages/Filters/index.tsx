@@ -70,7 +70,7 @@ const Filters: React.FC = () => {
 
   const flatListRef = useRef(null);
   const [filter, setFilter] = useState('Categories');
-  const [content, setContent] = useState(categories);
+  const [content, setContent] = useState([]);
 
   const filters = [
     {
@@ -98,7 +98,6 @@ const Filters: React.FC = () => {
   useEffect(() => {
     const filtered = getContent();
     setContent(filtered.content);
-    flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
   }, [filter, getContent]);
 
   const onPress = useCallback(
@@ -112,6 +111,7 @@ const Filters: React.FC = () => {
   const onPressFilter = useCallback(
     (nameFilter: string): void => {
       if (filter === nameFilter) return;
+      flatListRef?.current?.scrollToOffset({ animated: true, offset: 0 });
       setFilter(nameFilter);
     },
     [filter],

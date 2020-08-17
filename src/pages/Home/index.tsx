@@ -20,7 +20,6 @@ const Home: React.FC = () => {
     <Stack.Navigator
       initialRouteName="Filters"
       screenOptions={{
-        // headerShown: false,
         cardStyle: {
           backgroundColor: '#EB5757',
         },

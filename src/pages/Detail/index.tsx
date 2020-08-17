@@ -17,7 +17,6 @@ import {
 } from './styles';
 
 import Loading from '../../components/Loading/LoadingCenter';
-import Header from '../../components/Header';
 
 const getIngredients = detail => {
   const items = [] as any[];
