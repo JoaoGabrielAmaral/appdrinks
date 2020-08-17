@@ -32,12 +32,6 @@ export const Item = styled.Text`
   color: #000;
 `;
 
-export const FilterName = styled.Text`
-  color: #fff;
-  font-size: 25px;
-  padding-left: 10px;
-`;
-
 export const NoRecords = styled.Text`
   font-size: 15px;
 `;
@@ -48,4 +42,11 @@ export const IconDetail = styled(Icon).attrs(() => ({
   color: '#EB5757',
 }))`
   padding: 0px 10px 0 10px;
+`;
+
+export const ContainerFlatList = styled.View`
+  flex: 1;
+  background-color: #f6f6f6;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 `;

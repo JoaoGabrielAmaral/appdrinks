@@ -7,9 +7,9 @@ import {
   Container,
   ContainerItem,
   Item,
-  FilterName,
   NoRecords,
   IconDetail,
+  ContainerFlatList,
 } from './styles';
 import { useDrinks } from '../../hooks/drinks';
 
@@ -125,6 +125,7 @@ const Filters: React.FC = () => {
       <View>
         <FlatList
           horizontal
+          showsHorizontalScrollIndicator={false}
           keyExtractor={c => c.name}
           data={filters}
           renderItem={({ item }) => {
@@ -133,16 +134,10 @@ const Filters: React.FC = () => {
           }}
         />
       </View>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#F6F6F6',
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-        }}
-      >
+      <ContainerFlatList>
         <FlatList
           ref={flatListRef}
+          showsVerticalScrollIndicator={false}
           keyExtractor={c => c}
           style={{ marginTop: 2 }}
           ListFooterComponent={() => {
@@ -165,7 +160,7 @@ const Filters: React.FC = () => {
           data={content}
           renderItem={item => renderItem(item, filter, onPress)}
         />
-      </View>
+      </ContainerFlatList>
     </>
   );
 };
