@@ -47,7 +47,15 @@ const Home: React.FC = () => {
         }}
         component={Drinks}
       />
-      <Stack.Screen name="Detail" component={Detail} />
+      <Stack.Screen
+        name="Detail"
+        options={{
+          title: 'Detail',
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+        }}
+        component={Detail}
+      />
     </Stack.Navigator>
   );
 };

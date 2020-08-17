@@ -1,5 +1,11 @@
-import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { View, FlatList, ScrollView, Dimensions, Text } from 'react-native';
+import React, {
+  useCallback,
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+} from 'react';
+import { View, FlatList, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -37,19 +43,17 @@ const renderFilter = (
   );
 };
 
-const renderItem = ({ item }: any, nameFilter, onPress) => {
-  return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={() => onPress(nameFilter, item)}
-    >
-      <ContainerItem height={HEIGHT_ITEM}>
-        <Item>{item}</Item>
-        <IconDetail />
-      </ContainerItem>
-    </TouchableOpacity>
-  );
-};
+const renderItem = ({ item }: any, nameFilter, onPress) => (
+  <TouchableOpacity
+    activeOpacity={0.9}
+    onPress={() => onPress(nameFilter, item)}
+  >
+    <ContainerItem height={HEIGHT_ITEM}>
+      <Item>{item}</Item>
+      <IconDetail />
+    </ContainerItem>
+  </TouchableOpacity>
+);
 
 const Filters: React.FC = () => {
   const { navigate } = useNavigation();
@@ -140,6 +144,12 @@ const Filters: React.FC = () => {
           showsVerticalScrollIndicator={false}
           keyExtractor={c => c}
           style={{ marginTop: 2 }}
+          initialNumToRender={10}
+          viewabilityConfig={{
+            minimumViewTime: 300,
+            viewAreaCoveragePercentThreshold: 100,
+            waitForInteraction: true,
+          }}
           ListFooterComponent={() => {
             return (
               <>

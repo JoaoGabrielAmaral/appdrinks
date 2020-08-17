@@ -86,11 +86,6 @@ const Detail: React.FC = () => {
 
   return (
     <>
-      <Header
-        text="Details"
-        showButtonBack
-        onPressBack={() => navigate('Drinks')}
-      />
       {loading ? (
         <Loading />
       ) : (
