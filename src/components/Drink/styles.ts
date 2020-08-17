@@ -5,7 +5,7 @@ export const Container = styled.View`
   flex-direction: row;
   background-color: #fff;
   border-radius: 10px;
-  margin: 0 10px 10px 10px;
+  margin: 5px 10px 5px 10px;
 `;
 
 export const ContainerImage = styled.View`
@@ -32,4 +32,5 @@ export const ContainerIcon = styled.View`
 export const IconDetail = styled(Icon).attrs(() => ({
   size: 15,
   name: 'arrow-right',
+  color: '#EB5757',
 }))``;

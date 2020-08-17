@@ -2,12 +2,11 @@ import React, { useCallback } from 'react';
 import { FlatList, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { Container, Title } from './styles';
+import { Container, Title, ContainerFlatList } from './styles';
 
 import { useDrinks } from '../../hooks/drinks';
 
 import Loading from '../../components/Loading/LoadingCenter';
-import Header from '../../components/Header';
 import Search from '../../components/Search';
 import Drink from '../../components/Drink';
 
@@ -39,13 +38,6 @@ const Drinks: React.FC = () => {
 
   return (
     <>
-      {/* <Header
-        text="Drinks"
-        showButtonBack
-        onPressBack={() => {
-          navigate('Filters');
-        }}
-      /> */}
       <Search
         placeholder="Search"
         onChangeText={(text: string) => {
@@ -53,22 +45,25 @@ const Drinks: React.FC = () => {
           onSearchDrinks(text);
         }}
       />
-      {loading ? (
-        <Loading />
-      ) : (
-        <FlatList
-          data={drinks}
-          keyExtractor={drink => String(drink.idDrink)}
-          ListEmptyComponent={() => {
-            return (
-              <Container>
-                <Title>No records found</Title>
-              </Container>
-            );
-          }}
-          renderItem={item => renderItem(item, onPress)}
-        />
-      )}
+      <ContainerFlatList>
+        {loading ? (
+          <Loading />
+        ) : (
+          <FlatList
+            data={drinks}
+            keyExtractor={drink => String(drink.idDrink)}
+            style={{ marginTop: 2 }}
+            ListEmptyComponent={() => {
+              return (
+                <Container>
+                  <Title>No records found</Title>
+                </Container>
+              );
+            }}
+            renderItem={item => renderItem(item, onPress)}
+          />
+        )}
+      </ContainerFlatList>
     </>
   );
 };

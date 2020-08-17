@@ -38,7 +38,15 @@ const Home: React.FC = () => {
           headerTintColor: '#fff',
         }}
       />
-      <Stack.Screen name="Drinks" component={Drinks} />
+      <Stack.Screen
+        name="Drinks"
+        options={{
+          title: 'Drinks',
+          headerTitleAlign: 'center',
+          headerTintColor: '#fff',
+        }}
+        component={Drinks}
+      />
       <Stack.Screen name="Detail" component={Detail} />
     </Stack.Navigator>
   );
